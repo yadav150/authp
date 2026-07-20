@@ -1,0 +1,131 @@
+/* ============================================================
+   Modals – Overlay & Dialog Box Styles
+   ============================================================ */
+
+/* ---- Modal Overlay (Backdrop) ---- */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background-color: var(--color-overlay);
+  z-index: var(--z-modal-backdrop);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--spacing-lg);
+  opacity: 0;
+  visibility: hidden;
+  transition:
+    opacity var(--transition-base),
+    visibility var(--transition-base);
+}
+
+.modal-overlay--open {
+  opacity: 1;
+  visibility: visible;
+}
+
+/* ---- Modal Dialog ---- */
+.modal {
+  background-color: var(--color-surface);
+  border-radius: var(--border-radius);
+  box-shadow: var(--shadow-xl);
+  width: 100%;
+  max-width: 480px;
+  max-height: calc(100vh - 64px);
+  overflow-y: auto;
+  z-index: var(--z-modal);
+  transform: translateY(20px) scale(0.97);
+  transition: transform var(--transition-base);
+}
+
+.modal-overlay--open .modal {
+  transform: translateY(0) scale(1);
+}
+
+/* ---- Modal Sizes ---- */
+.modal--sm {
+  max-width: 360px;
+}
+
+.modal--lg {
+  max-width: 640px;
+}
+
+/* ---- Modal Header ---- */
+.modal__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--spacing-lg) var(--spacing-lg) 0;
+}
+
+.modal__title {
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text);
+  line-height: var(--line-height-tight);
+  margin: 0;
+}
+
+.modal__close {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: var(--border-radius-sm);
+  border: none;
+  background: none;
+  cursor: pointer;
+  color: var(--color-text-muted);
+  transition:
+    color var(--transition-fast),
+    background-color var(--transition-fast);
+  flex-shrink: 0;
+}
+
+.modal__close:hover {
+  color: var(--color-text);
+  background-color: var(--color-secondary-light);
+}
+
+.modal__close svg {
+  width: 18px;
+  height: 18px;
+}
+
+/* ---- Modal Body ---- */
+.modal__body {
+  padding: var(--spacing-lg);
+  font-size: var(--font-size-base);
+  color: var(--color-text);
+  line-height: var(--line-height-relaxed);
+}
+
+/* ---- Modal Footer ---- */
+.modal__footer {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: var(--spacing-sm);
+  padding: 0 var(--spacing-lg) var(--spacing-lg);
+}
+
+/* ---- Modal Animation (for closing via JS) ---- */
+.modal-overlay--closing {
+  opacity: 0;
+  visibility: hidden;
+  transition:
+    opacity var(--transition-base),
+    visibility var(--transition-base);
+}
+
+.modal-overlay--closing .modal {
+  transform: translateY(20px) scale(0.97);
+  transition: transform var(--transition-base);
+}
+
+/* ---- Prevent body scroll when modal open ---- */
+body.modal-open {
+  overflow: hidden;
+}
