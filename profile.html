@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Profile - AuthDashboard</title>
+  <meta name="description" content="Manage your account profile." />
+
+  <!-- CSS Stylesheets -->
+  <link rel="stylesheet" href="css/variables.css" />
+  <link rel="stylesheet" href="css/reset.css" />
+  <link rel="stylesheet" href="css/typography.css" />
+  <link rel="stylesheet" href="css/layout.css" />
+  <link rel="stylesheet" href="css/buttons.css" />
+  <link rel="stylesheet" href="css/forms.css" />
+  <link rel="stylesheet" href="css/notification.css" />
+  <link rel="stylesheet" href="css/cards.css" />
+  <link rel="stylesheet" href="css/modals.css" />
+  <link rel="stylesheet" href="css/loader.css" />
+  <link rel="stylesheet" href="css/navbar.css" />
+  <link rel="stylesheet" href="css/footer.css" />
+  <link rel="stylesheet" href="css/auth.css" />
+  <link rel="stylesheet" href="css/dashboard.css" />
+  <link rel="stylesheet" href="css/profile.css" />
+  <link rel="stylesheet" href="css/utilities.css" />
+  <link rel="stylesheet" href="css/responsive.css" />
+
+  <link rel="icon" href="assets/images/favicon.ico" type="image/x-icon" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+</head>
+<body>
+  <!-- Notification Container -->
+  <div id="notificationContainer" class="notification-container" aria-live="polite" aria-atomic="false"></div>
+
+  <div class="page-wrapper">
+    <!-- Navbar -->
+    <nav class="navbar" role="navigation" aria-label="Main navigation">
+      <div class="navbar__inner">
+        <a href="index.html" class="navbar__brand" aria-label="AuthDashboard Home">
+          <img src="assets/images/logo.svg" alt="" class="navbar__logo" width="32" height="32" />
+          AuthDashboard
+        </a>
+        <div class="navbar__links">
+          <a href="index.html" class="navbar__link" data-page="index.html">Home</a>
+          <a href="dashboard.html" class="navbar__link" data-page="dashboard.html" data-auth-visible>Dashboard</a>
+          <a href="profile.html" class="navbar__link navbar__link--active" data-page="profile.html" data-auth-visible>Profile</a>
+          <a href="login.html" class="navbar__link" data-page="login.html" data-unauth-visible>Login</a>
+          <a href="signup.html" class="navbar__link" data-page="signup.html" data-unauth-visible>Sign Up</a>
+        </div>
+        <div class="navbar__actions">
+          <div class="navbar__user" data-auth-visible>
+            <img src="assets/icons/user-avatar.svg" alt="User avatar" class="navbar__avatar" width="32" height="32" />
+            <span class="navbar__user-name">User</span>
+          </div>
+          <button class="btn btn-sm btn-ghost navbar__logout-btn" data-auth-visible>Logout</button>
+          <a href="login.html" class="btn btn-sm btn-primary" data-unauth-visible>Login</a>
+        </div>
+        <button class="navbar__toggle" aria-label="Toggle navigation menu" aria-expanded="false">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+      <div class="navbar__mobile-menu" aria-hidden="true">
+        <a href="index.html" class="navbar__link" data-page="index.html">Home</a>
+        <a href="dashboard.html" class="navbar__link" data-page="dashboard.html" data-auth-visible>Dashboard</a>
+        <a href="profile.html" class="navbar__link navbar__link--active" data-page="profile.html" data-auth-visible>Profile</a>
+        <a href="login.html" class="navbar__link" data-page="login.html" data-unauth-visible>Login</a>
+        <a href="signup.html" class="navbar__link" data-page="signup.html" data-unauth-visible>Sign Up</a>
+        <div class="navbar__actions">
+          <button class="btn btn-block btn-ghost navbar__logout-btn" data-auth-visible>Logout</button>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Main Content: Profile -->
+    <main class="page-content profile">
+      <div class="container container--narrow">
+        <!-- Profile Header: Avatar and basic info -->
+        <div class="profile__header">
+          <div class="profile__avatar-section">
+            <img src="assets/icons/user-avatar.svg" alt="User avatar" class="profile__avatar" id="profileAvatar" />
+            <button class="profile__avatar-edit" aria-label="Change profile picture" title="Change profile picture">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/>
+                <circle cx="12" cy="13" r="4"/>
+              </svg>
+            </button>
+          </div>
+          <div class="profile__info">
+            <h1 class="profile__name" id="profileDisplayName">User</h1>
+            <p class="profile__email" id="profileEmail">user@example.com</p>
+            <div class="profile__meta">
+              <span id="profileCreated">Member since ...</span>
+              <span id="profileLastSignIn">Last sign-in: ...</span>
+              <span id="profileVerified">Verified</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Edit Profile Form -->
+        <div class="profile__section">
+          <h2 class="profile__section-title">Account Information</h2>
+          <form id="profileForm" class="profile__form" novalidate>
+            <div class="form-group">
+              <label for="profileNameInput" class="form-label">Display Name</label>
+              <input type="text" id="profileNameInput" class="form-input" placeholder="Your name" />
+            </div>
+            <div class="form-group">
+              <label for="profileEmailInput" class="form-label">Email</label>
+              <input type="email" id="profileEmailInput" class="form-input" disabled value="user@example.com" />
+              <span class="form-helper">Contact support to change your email.</span>
+            </div>
+            <div class="profile__form-actions">
+              <button type="submit" class="btn btn-primary">Save Changes</button>
+            </div>
+          </form>
+        </div>
+
+        <!-- Danger Zone -->
+        <div class="profile__section profile__danger">
+          <h2 class="profile__section-title">Danger Zone</h2>
+          <div class="profile__danger-content">
+            <p class="profile__danger-text">Permanently delete your account and all associated data. This action cannot be undone.</p>
+            <button id="deleteAccountBtn" class="btn btn-danger btn-sm">Delete Account</button>
+          </div>
+        </div>
+
+        <!-- Additional Logout (optional) -->
+        <div class="mt-lg text-center">
+          <button id="profileLogoutBtn" class="btn btn-outline">Logout</button>
+        </div>
+      </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer" role="contentinfo">
+      <div class="footer__inner">
+        <span class="footer__copyright">&copy; 2026 AuthDashboard. All rights reserved.</span>
+        <nav class="footer__links" aria-label="Footer links">
+          <a href="index.html" class="footer__link">Home</a>
+          <a href="#" class="footer__link">Privacy</a>
+          <a href="#" class="footer__link">Terms</a>
+        </nav>
+      </div>
+    </footer>
+  </div>
+
+  <!-- App JS (global init, auth guard) -->
+  <script type="module" src="js/app.js"></script>
+  <!-- Profile-specific logic -->
+  <script type="module" src="js/profile.js"></script>
+</body>
+</html>
