@@ -1,306 +1,165 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Exam Prep</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AuthDashboard - Modern Authentication System</title>
+  <meta name="description" content="A clean, secure authentication dashboard template with Firebase integration." />
 
-  <style>
-    *{
-      margin:0;
-      padding:0;
-      box-sizing:border-box;
-      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial;
-    }
+  <!-- CSS Stylesheets (cascade order) -->
+  <link rel="stylesheet" href="css/variables.css" />
+  <link rel="stylesheet" href="css/reset.css" />
+  <link rel="stylesheet" href="css/typography.css" />
+  <link rel="stylesheet" href="css/layout.css" />
+  <link rel="stylesheet" href="css/buttons.css" />
+  <link rel="stylesheet" href="css/forms.css" />
+  <link rel="stylesheet" href="css/notification.css" />
+  <link rel="stylesheet" href="css/cards.css" />
+  <link rel="stylesheet" href="css/modals.css" />
+  <link rel="stylesheet" href="css/loader.css" />
+  <link rel="stylesheet" href="css/navbar.css" />
+  <link rel="stylesheet" href="css/footer.css" />
+  <link rel="stylesheet" href="css/auth.css" />
+  <link rel="stylesheet" href="css/dashboard.css" />
+  <link rel="stylesheet" href="css/profile.css" />
+  <link rel="stylesheet" href="css/utilities.css" />
+  <link rel="stylesheet" href="css/responsive.css" />
 
-    body{
-      background:#f5f7fb;
-      color:#1a1a1a;
-    }
+  <!-- Favicon -->
+  <link rel="icon" href="assets/images/favicon.ico" type="image/x-icon" />
 
-    .container{
-      width:100%;
-      max-width:1100px;
-      margin:auto;
-      padding:0 16px;
-    }
-
-    /* NAVBAR */
-    .navbar{
-      background:#1e2a78;
-      color:#fff;
-      padding:14px 0;
-    }
-
-    .nav-wrap{
-      display:flex;
-      justify-content:space-between;
-      align-items:center;
-    }
-
-    .logo{
-      font-size:20px;
-      font-weight:700;
-      letter-spacing:0.5px;
-    }
-
-    /* HERO */
-    .hero{
-      padding:60px 0 30px;
-      text-align:center;
-    }
-
-    .hero h1{
-      font-size:34px;
-      font-weight:800;
-      color:#1e2a78;
-    }
-
-    .hero p{
-      margin-top:10px;
-      color:#555;
-      font-size:15px;
-    }
-
-    .hero-stats{
-      margin-top:25px;
-      display:flex;
-      justify-content:center;
-      gap:12px;
-      flex-wrap:wrap;
-    }
-
-    .stat{
-      background:#fff;
-      padding:14px 18px;
-      border-radius:10px;
-      box-shadow:0 4px 12px rgba(0,0,0,0.08);
-      min-width:120px;
-    }
-
-    .stat h3{
-      color:#1e2a78;
-      font-size:18px;
-    }
-
-    .stat p{
-      font-size:12px;
-      color:#666;
-    }
-
-    /* STRIP */
-    .exam-strip{
-      margin:20px 0;
-      background:#1e2a78;
-      color:#fff;
-      padding:18px 0;
-      text-align:center;
-    }
-
-    .exam-strip h2{
-      font-size:18px;
-    }
-
-    .exam-strip p{
-      margin-top:6px;
-      font-size:13px;
-      opacity:0.9;
-    }
-
-    /* CATEGORIES */
-    .categories{
-      padding:30px 0;
-      text-align:center;
-    }
-
-    .categories h2{
-      font-size:22px;
-      margin-bottom:18px;
-      color:#1e2a78;
-    }
-
-    .card-container{
-      display:grid;
-      grid-template-columns:repeat(auto-fit, minmax(160px,1fr));
-      gap:14px;
-    }
-
-    .card{
-      background:#fff;
-      border:none;
-      padding:18px;
-      border-radius:12px;
-      cursor:pointer;
-      text-align:left;
-      box-shadow:0 4px 10px rgba(0,0,0,0.08);
-      transition:0.2s;
-    }
-
-    .card:hover{
-      transform:translateY(-4px);
-    }
-
-    .card h3{
-      color:#1e2a78;
-      font-size:16px;
-    }
-
-    .card p{
-      margin-top:6px;
-      font-size:12px;
-      color:#666;
-    }
-
-    /* FEATURES */
-    .features{
-      padding:30px 0;
-      text-align:center;
-    }
-
-    .features h2{
-      color:#1e2a78;
-      margin-bottom:18px;
-    }
-
-    .feature-grid{
-      display:grid;
-      grid-template-columns:repeat(auto-fit, minmax(200px,1fr));
-      gap:14px;
-    }
-
-    .feature{
-      background:#fff;
-      padding:16px;
-      border-radius:10px;
-      box-shadow:0 4px 10px rgba(0,0,0,0.06);
-    }
-
-    .feature h3{
-      font-size:15px;
-      color:#1e2a78;
-    }
-
-    .feature p{
-      margin-top:6px;
-      font-size:12px;
-      color:#666;
-    }
-
-    /* FOOTER */
-    .footer{
-      margin-top:30px;
-      background:#1e2a78;
-      color:#fff;
-      text-align:center;
-      padding:14px 0;
-      font-size:13px;
-    }
-
-    @media(max-width:600px){
-      .hero h1{font-size:26px;}
-    }
-
-  </style>
+  <!-- Fonts (Inter) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
 </head>
-
 <body>
+  <!-- Notification Container -->
+  <div id="notificationContainer" class="notification-container" aria-live="polite" aria-atomic="false"></div>
 
-<header class="navbar">
-  <div class="container nav-wrap">
-    <div class="logo">ExamPrep</div>
-    <nav id="navLinks"></nav>
-  </div>
-</header>
+  <!-- Page Wrapper for sticky footer -->
+  <div class="page-wrapper">
 
-<section class="hero">
-  <div class="container">
-    <h1>Boost Your Exam Preparation 🚀</h1>
-    <p>Practice topic-wise quizzes and improve your performance</p>
-
-    <div class="hero-stats">
-      <div class="stat"><h3>500+</h3><p>Questions</p></div>
-      <div class="stat"><h3>5+</h3><p>Subjects</p></div>
-      <div class="stat"><h3>24/7</h3><p>Practice</p></div>
-    </div>
-  </div>
-</section>
-
-<section class="exam-strip">
-  <div class="container">
-    <h2>Competitive Exam Preparation</h2>
-    <p>SSC • Banking • Railway • State Exams • School Tests</p>
-  </div>
-</section>
-
-<section class="categories">
-  <div class="container">
-    <h2>Choose Quiz Category</h2>
-
-    <div class="card-container">
-
-      <button class="card" onclick="goToQuiz('math')">
-        <h3>Mathematics</h3>
-        <p>Algebra, Geometry, Arithmetic</p>
-      </button>
-
-      <button class="card" onclick="goToQuiz('science')">
-        <h3>Science</h3>
-        <p>Physics, Chemistry, Biology</p>
-      </button>
-
-      <button class="card" onclick="goToQuiz('gk')">
-        <h3>General Knowledge</h3>
-        <p>Current Affairs & Static GK</p>
-      </button>
-
-      <button class="card" onclick="goToQuiz('english')">
-        <h3>English</h3>
-        <p>Grammar, Vocabulary</p>
-      </button>
-
-      <button class="card" onclick="goToQuiz('computer')">
-        <h3>Computer</h3>
-        <p>Basics, Programming</p>
-      </button>
-
-    </div>
-  </div>
-</section>
-
-<section class="features">
-  <div class="container">
-    <h2>Why Choose ExamPrep?</h2>
-
-    <div class="feature-grid">
-
-      <div class="feature">
-        <h3>⚡ Fast Practice</h3>
-        <p>Instant quiz loading with timer-based tests</p>
+    <!-- Navbar Component -->
+    <!-- Include via server-side or pasted; for static pages we paste directly -->
+    <nav class="navbar" role="navigation" aria-label="Main navigation">
+      <div class="navbar__inner">
+        <a href="index.html" class="navbar__brand" aria-label="AuthDashboard Home">
+          <img src="assets/images/logo.svg" alt="" class="navbar__logo" width="32" height="32" />
+          AuthDashboard
+        </a>
+        <div class="navbar__links">
+          <a href="index.html" class="navbar__link navbar__link--active" data-page="index.html">Home</a>
+          <a href="dashboard.html" class="navbar__link" data-page="dashboard.html" data-auth-visible style="display:none;">Dashboard</a>
+          <a href="profile.html" class="navbar__link" data-page="profile.html" data-auth-visible style="display:none;">Profile</a>
+          <a href="login.html" class="navbar__link" data-page="login.html" data-unauth-visible>Login</a>
+          <a href="signup.html" class="navbar__link" data-page="signup.html" data-unauth-visible>Sign Up</a>
+        </div>
+        <div class="navbar__actions">
+          <div class="navbar__user" data-auth-visible style="display:none;">
+            <img src="assets/icons/user-avatar.svg" alt="User avatar" class="navbar__avatar" width="32" height="32" />
+            <span class="navbar__user-name">User</span>
+          </div>
+          <button class="btn btn-sm btn-ghost navbar__logout-btn" data-auth-visible style="display:none;">Logout</button>
+          <a href="login.html" class="btn btn-sm btn-primary" data-unauth-visible>Login</a>
+        </div>
+        <button class="navbar__toggle" aria-label="Toggle navigation menu" aria-expanded="false">
+          <span></span><span></span><span></span>
+        </button>
       </div>
-
-      <div class="feature">
-        <h3>📊 Progress Tracking</h3>
-        <p>Track your improvement easily</p>
+      <div class="navbar__mobile-menu" aria-hidden="true">
+        <a href="index.html" class="navbar__link navbar__link--active" data-page="index.html">Home</a>
+        <a href="dashboard.html" class="navbar__link" data-page="dashboard.html" data-auth-visible style="display:none;">Dashboard</a>
+        <a href="profile.html" class="navbar__link" data-page="profile.html" data-auth-visible style="display:none;">Profile</a>
+        <a href="login.html" class="navbar__link" data-page="login.html" data-unauth-visible>Login</a>
+        <a href="signup.html" class="navbar__link" data-page="signup.html" data-unauth-visible>Sign Up</a>
+        <div class="navbar__actions">
+          <button class="btn btn-block btn-ghost navbar__logout-btn" data-auth-visible style="display:none;">Logout</button>
+        </div>
       </div>
+    </nav>
 
-      <div class="feature">
-        <h3>🎯 Topic Wise</h3>
-        <p>Focused learning system</p>
+    <!-- Main Content -->
+    <main class="page-content">
+      <!-- Hero Section -->
+      <section class="container" style="padding-top: var(--spacing-3xl); padding-bottom: var(--spacing-3xl);">
+        <div class="grid grid-cols-2 gap-xl" style="align-items:center;">
+          <!-- Hero Text -->
+          <div>
+            <h1 class="mb-md">Modern Authentication Made Simple</h1>
+            <p class="text-secondary text-lg mb-lg">
+              A clean, secure dashboard with email/password and Google sign-in. Built with Firebase, fully responsive, and ready to deploy on GitHub Pages.
+            </p>
+            <div class="flex gap-sm flex-wrap">
+              <a href="signup.html" class="btn btn-primary btn-lg">Get Started</a>
+              <a href="login.html" class="btn btn-outline btn-lg">Sign In</a>
+            </div>
+          </div>
+          <!-- Hero Illustration -->
+          <div class="flex justify-center">
+            <img src="assets/images/hero-illustration.svg" alt="Secure authentication illustration" style="max-width: 400px; width: 100%; height: auto;" />
+          </div>
+        </div>
+      </section>
+
+      <!-- Features Section -->
+      <section class="bg-surface" style="padding: var(--spacing-3xl) 0;">
+        <div class="container">
+          <div class="text-center mb-xl">
+            <h2 class="mb-sm">Everything You Need</h2>
+            <p class="text-secondary text-lg">A complete authentication template out of the box.</p>
+          </div>
+          <div class="grid grid-cols-3 gap-lg">
+            <!-- Feature 1 -->
+            <div class="card card--flat text-center">
+              <div class="card__icon mx-auto">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+              </div>
+              <h4 class="mb-xs">Email & Password Auth</h4>
+              <p class="text-sm text-secondary">Secure registration and login with email/password powered by Firebase Auth.</p>
+            </div>
+            <!-- Feature 2 -->
+            <div class="card card--flat text-center">
+              <div class="card__icon mx-auto">
+                <svg viewBox="0 0 24 24" fill="currentColor"><path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92a5.06 5.06 0 0 1-2.2 3.32v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.1z"/><path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/><path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/></svg>
+              </div>
+              <h4 class="mb-xs">Google Sign-In</h4>
+              <p class="text-sm text-secondary">One-click login with Google. Fast, familiar, and trusted by billions.</p>
+            </div>
+            <!-- Feature 3 -->
+            <div class="card card--flat text-center">
+              <div class="card__icon mx-auto">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+              </div>
+              <h4 class="mb-xs">Protected Dashboard</h4>
+              <p class="text-sm text-secondary">Route guards keep your pages safe. Automatic redirect to login if not authenticated.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- CTA Section -->
+      <section class="container text-center" style="padding: var(--spacing-3xl) 0;">
+        <h2 class="mb-sm">Ready to Get Started?</h2>
+        <p class="text-secondary mb-lg">Create your free account and explore the dashboard.</p>
+        <a href="signup.html" class="btn btn-primary btn-lg">Create Free Account</a>
+      </section>
+    </main>
+
+    <!-- Footer Component -->
+    <footer class="footer" role="contentinfo">
+      <div class="footer__inner">
+        <span class="footer__copyright">&copy; 2026 AuthDashboard. All rights reserved.</span>
+        <nav class="footer__links" aria-label="Footer links">
+          <a href="index.html" class="footer__link">Home</a>
+          <a href="#" class="footer__link">Privacy</a>
+          <a href="#" class="footer__link">Terms</a>
+        </nav>
       </div>
-
-      <div class="feature">
-        <h3>🏆 Exam Ready</h3>
-        <p>Practice like real exams</p>
-      </div>
-
-    </div>
+    </footer>
   </div>
-</section>
 
-<footer class="footer">
-  Made with ❤️ by Yadav Subba
-</footer>
-
-<script src="js/app.js"></script>
+  <!-- App JS (module) -->
+  <script type="module" src="js/app.js"></script>
 </body>
 </html>
