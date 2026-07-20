@@ -8,7 +8,9 @@
   align-items: center;
   justify-content: center;
   min-height: calc(100vh - var(--navbar-height) - var(--footer-height) - 2px);
-  padding: var(--spacing-xl) var(--spacing-lg);
+  padding-left: var(--spacing-lg);
+  padding-right: var(--spacing-lg);
+  /* No vertical padding – top spacing comes from .page-content padding-top (navbar height) */
 }
 
 .auth-card {
