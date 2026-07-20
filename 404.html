@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Page Not Found - AuthDashboard</title>
+  <meta name="description" content="The page you're looking for doesn't exist." />
+
+  <!-- CSS Stylesheets -->
+  <link rel="stylesheet" href="css/variables.css" />
+  <link rel="stylesheet" href="css/reset.css" />
+  <link rel="stylesheet" href="css/typography.css" />
+  <link rel="stylesheet" href="css/layout.css" />
+  <link rel="stylesheet" href="css/buttons.css" />
+  <link rel="stylesheet" href="css/forms.css" />
+  <link rel="stylesheet" href="css/notification.css" />
+  <link rel="stylesheet" href="css/cards.css" />
+  <link rel="stylesheet" href="css/modals.css" />
+  <link rel="stylesheet" href="css/loader.css" />
+  <link rel="stylesheet" href="css/navbar.css" />
+  <link rel="stylesheet" href="css/footer.css" />
+  <link rel="stylesheet" href="css/auth.css" />
+  <link rel="stylesheet" href="css/dashboard.css" />
+  <link rel="stylesheet" href="css/profile.css" />
+  <link rel="stylesheet" href="css/utilities.css" />
+  <link rel="stylesheet" href="css/responsive.css" />
+
+  <link rel="icon" href="assets/images/favicon.ico" type="image/x-icon" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+</head>
+<body>
+  <!-- Notification Container -->
+  <div id="notificationContainer" class="notification-container" aria-live="polite" aria-atomic="false"></div>
+
+  <div class="page-wrapper">
+    <!-- Navbar (simplified, no active page) -->
+    <nav class="navbar" role="navigation" aria-label="Main navigation">
+      <div class="navbar__inner">
+        <a href="index.html" class="navbar__brand" aria-label="AuthDashboard Home">
+          <img src="assets/images/logo.svg" alt="" class="navbar__logo" width="32" height="32" />
+          AuthDashboard
+        </a>
+        <div class="navbar__links">
+          <a href="index.html" class="navbar__link" data-page="index.html">Home</a>
+          <a href="dashboard.html" class="navbar__link" data-page="dashboard.html" data-auth-visible style="display:none;">Dashboard</a>
+          <a href="profile.html" class="navbar__link" data-page="profile.html" data-auth-visible style="display:none;">Profile</a>
+          <a href="login.html" class="navbar__link" data-page="login.html" data-unauth-visible>Login</a>
+          <a href="signup.html" class="navbar__link" data-page="signup.html" data-unauth-visible>Sign Up</a>
+        </div>
+        <div class="navbar__actions">
+          <div class="navbar__user" data-auth-visible style="display:none;">
+            <img src="assets/icons/user-avatar.svg" alt="User avatar" class="navbar__avatar" width="32" height="32" />
+            <span class="navbar__user-name">User</span>
+          </div>
+          <button class="btn btn-sm btn-ghost navbar__logout-btn" data-auth-visible style="display:none;">Logout</button>
+          <a href="login.html" class="btn btn-sm btn-primary" data-unauth-visible>Login</a>
+        </div>
+        <button class="navbar__toggle" aria-label="Toggle navigation menu" aria-expanded="false">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+      <div class="navbar__mobile-menu" aria-hidden="true">
+        <a href="index.html" class="navbar__link" data-page="index.html">Home</a>
+        <a href="dashboard.html" class="navbar__link" data-page="dashboard.html" data-auth-visible style="display:none;">Dashboard</a>
+        <a href="profile.html" class="navbar__link" data-page="profile.html" data-auth-visible style="display:none;">Profile</a>
+        <a href="login.html" class="navbar__link" data-page="login.html" data-unauth-visible>Login</a>
+        <a href="signup.html" class="navbar__link" data-page="signup.html" data-unauth-visible>Sign Up</a>
+        <div class="navbar__actions">
+          <button class="btn btn-block btn-ghost navbar__logout-btn" data-auth-visible style="display:none;">Logout</button>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Main Content: 404 -->
+    <main class="page-content flex items-center justify-center" style="min-height: calc(100vh - var(--navbar-height) - var(--footer-height));">
+      <div class="container container--narrow text-center">
+        <h1 style="font-size: 6rem; line-height: 1; color: var(--color-primary); margin-bottom: var(--spacing-sm);">404</h1>
+        <h2 class="mb-sm">Page Not Found</h2>
+        <p class="text-secondary text-lg mb-lg">
+          Sorry, the page you're looking for doesn't exist or has been moved.
+        </p>
+        <div class="flex justify-center gap-sm">
+          <a href="index.html" class="btn btn-primary">Go Home</a>
+          <a href="dashboard.html" class="btn btn-outline">Dashboard</a>
+        </div>
+      </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer" role="contentinfo">
+      <div class="footer__inner">
+        <span class="footer__copyright">&copy; 2026 AuthDashboard. All rights reserved.</span>
+        <nav class="footer__links" aria-label="Footer links">
+          <a href="index.html" class="footer__link">Home</a>
+          <a href="#" class="footer__link">Privacy</a>
+          <a href="#" class="footer__link">Terms</a>
+        </nav>
+      </div>
+    </footer>
+  </div>
+
+  <!-- App JS -->
+  <script type="module" src="js/app.js"></script>
+</body>
+</html>
