@@ -1,0 +1,25 @@
+# Dependencies
+node_modules/
+
+# Firebase
+.firebase/
+
+# Logs
+*.log
+npm-debug.log*
+
+# OS generated files
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+
+# Build output
+dist/
+build/
+
+# Environment variables
+.env
+.env.local
