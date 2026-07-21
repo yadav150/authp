@@ -1,0 +1,5 @@
+<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" aria-label="User authentication icon">
+  <path d="M50 5 L85 20 L85 50 C85 70 70 82 50 95 C30 82 15 70 15 50 L15 20 Z" fill="none" stroke="#191919" stroke-width="4" stroke-linejoin="round"/>
+  <circle cx="50" cy="40" r="12" fill="none" stroke="#191919" stroke-width="4"/>
+  <path d="M32 70 C32 58 40 50 50 50 C60 50 68 58 68 70" fill="none" stroke="#191919" stroke-width="4" stroke-linecap="round"/>
+</svg>
