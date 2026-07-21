@@ -8,7 +8,8 @@ import {
   signInWithPopup,
   GoogleAuthProvider,
   onAuthStateChanged,
-  signOut
+  signOut,
+  updateProfile          // ← add this import
 } from "https://www.gstatic.com/firebasejs/12.16.0/firebase-auth.js";
 
 const firebaseConfig = {
@@ -32,5 +33,6 @@ export {
   sendEmailVerification,
   signInWithPopup,
   onAuthStateChanged,
-  signOut
+  signOut,
+  updateProfile          // ← export it
 };
