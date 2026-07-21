@@ -7,7 +7,8 @@ import {
   sendEmailVerification,
   signInWithPopup,
   onAuthStateChanged,
-  signOut
+  signOut,
+  updateProfile          // ← now imported and used
 } from './firebase.js';
 
 // ---------------- Panel switching ----------------
@@ -90,7 +91,7 @@ document.getElementById('login-form').addEventListener('submit', async (e) => {
   }
 });
 
-// Sign Up
+// Sign Up (now saves the user's name)
 document.getElementById('signup-form').addEventListener('submit', async (e) => {
   e.preventDefault();
   const name = document.getElementById('signup-name').value.trim();
@@ -109,6 +110,9 @@ document.getElementById('signup-form').addEventListener('submit', async (e) => {
   showStatus('Creating your account...', 'info');
   try {
     const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+    // Save the display name
+    await updateProfile(userCredential.user, { displayName: name });
+    // Send email verification
     await sendEmailVerification(userCredential.user);
     showStatus('Account created! A verification email has been sent to ' + email, 'success');
   } catch (error) {
@@ -151,7 +155,7 @@ if (googleBtn) {
   });
 }
 
-// Auth state observer
+// Auth state observer (optional)
 onAuthStateChanged(auth, (user) => {
   console.log('Auth state changed:', user ? user.email : 'logged out');
 });
@@ -164,7 +168,6 @@ document.querySelectorAll('.password-toggle').forEach(button => {
     const type = input.getAttribute('type') === 'password' ? 'text' : 'password';
     input.setAttribute('type', type);
 
-    // Toggle SVG icons
     const offIcon = this.querySelector('svg[id$="-eye-off"]');
     const onIcon = this.querySelector('svg[id$="-eye-on"]');
     if (offIcon && onIcon) {
