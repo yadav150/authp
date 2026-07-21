@@ -4,16 +4,16 @@
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Dashboard · Yadav Authentication Project</title>
-  <!-- Global stylesheet (your existing one) -->
   <link rel="stylesheet" href="style.css" />
-  <!-- Dashboard‑specific styles -->
   <link rel="stylesheet" href="dashboard.css" />
 </head>
 <body>
-  <!-- Loading overlay -->
-<div class="loading-overlay" id="loadingOverlay">
-  <div class="spinner"></div>
-</div>
+
+  <!-- Loading overlay (blur background + spinner) -->
+  <div class="loading-overlay" id="loadingOverlay">
+    <div class="spinner"></div>
+  </div>
+
   <header class="site-header">
     <div class="header-inner">
       <a href="index.html" class="site-title">Yadav Auth</a>
@@ -35,7 +35,7 @@
       </div>
     </div>
 
-    <!-- Recent Activity (static for now) -->
+    <!-- Recent Activity -->
     <div class="activity-card">
       <h2>Recent Activity</h2>
       <div class="activity-item"><span>Logged in</span><span class="activity-time">Just now</span></div>
@@ -145,8 +145,7 @@
     </div>
   </div>
 
-  <!-- Scripts -->
-  <script src="script.js"></script>   <!-- your original hamburger + favicon -->
+  <script src="script.js"></script>
   <script type="module" src="dashboard.js"></script>
 </body>
 </html>
