@@ -10,7 +10,7 @@ import {
   signOut
 } from './firebase.js';
 
-// ---------------- Panel switching (unchanged) ----------------
+// ---------------- Panel switching ----------------
 const panels = {
   login: document.getElementById('login-panel'),
   signup: document.getElementById('signup-panel'),
@@ -60,8 +60,6 @@ function setFieldError(fieldId, hasError) {
   const group = document.getElementById(fieldId).closest('.form-group');
   group.classList.toggle('error', hasError);
 }
-
-// ---------------- Loading state on button ----------------
 function setButtonLoading(form, loading) {
   const btn = form.querySelector('button[type="submit"]');
   if (btn) btn.disabled = loading;
@@ -85,7 +83,6 @@ document.getElementById('login-form').addEventListener('submit', async (e) => {
   try {
     const userCredential = await signInWithEmailAndPassword(auth, email, password);
     showStatus(`Welcome back, ${userCredential.user.email}!`, 'success');
-    // You could redirect to a protected page here if desired
   } catch (error) {
     showStatus(error.message, 'error');
   } finally {
@@ -112,7 +109,6 @@ document.getElementById('signup-form').addEventListener('submit', async (e) => {
   showStatus('Creating your account...', 'info');
   try {
     const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-    // Send email verification
     await sendEmailVerification(userCredential.user);
     showStatus('Account created! A verification email has been sent to ' + email, 'success');
   } catch (error) {
@@ -141,7 +137,7 @@ document.getElementById('forgot-form').addEventListener('submit', async (e) => {
   }
 });
 
-// Google Sign‑In (triggered by a button we'll add in the login panel)
+// Google Sign‑In
 const googleBtn = document.getElementById('google-signin');
 if (googleBtn) {
   googleBtn.addEventListener('click', async () => {
@@ -155,8 +151,30 @@ if (googleBtn) {
   });
 }
 
-// Auth state observer (optional, can be used to show logged-in state)
+// Auth state observer
 onAuthStateChanged(auth, (user) => {
-  // For now, we just log. You can later show/hide protected UI.
   console.log('Auth state changed:', user ? user.email : 'logged out');
+});
+
+// ============ Password Toggle (show/hide) ============
+document.querySelectorAll('.password-toggle').forEach(button => {
+  button.addEventListener('click', function () {
+    const group = this.closest('.password-group');
+    const input = group.querySelector('input');
+    const type = input.getAttribute('type') === 'password' ? 'text' : 'password';
+    input.setAttribute('type', type);
+
+    // Toggle SVG icons
+    const offIcon = this.querySelector('svg[id$="-eye-off"]');
+    const onIcon = this.querySelector('svg[id$="-eye-on"]');
+    if (offIcon && onIcon) {
+      if (type === 'text') {
+        offIcon.style.display = 'none';
+        onIcon.style.display = '';
+      } else {
+        offIcon.style.display = '';
+        onIcon.style.display = 'none';
+      }
+    }
+  });
 });
