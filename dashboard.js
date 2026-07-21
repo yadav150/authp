@@ -1,58 +1,43 @@
-import {
-  auth,
-  signOut,
-  onAuthStateChanged,
-  updateProfile
-} from './firebase.js';
+import { auth, signOut, onAuthStateChanged, updateProfile } from './firebase.js';
 
-// Cloudinary configuration
-const CLOUDINARY_CLOUD_NAME = 'nhxuht4e';
-const CLOUDINARY_UPLOAD_PRESET = 'yadav_auth_preset';
-const CLOUDINARY_UPLOAD_URL = `https://api.cloudinary.com/v1_1/${CLOUDINARY_CLOUD_NAME}/image/upload`;
+// ===== Cloudinary config =====
+const CLOUD_NAME = 'nhxuht4e';
+const UPLOAD_PRESET = 'yadav_auth_preset';
+const CLOUDINARY_URL = `https://api.cloudinary.com/v1_1/${CLOUD_NAME}/image/upload`;
 
-// DOM elements
-const profilePhoto = document.getElementById('profilePhoto');
-const profileName = document.getElementById('profileName');
-const profileEmail = document.getElementById('profileEmail');
-const toggleEditBtn = document.getElementById('toggleEditBtn');
-const editPanel = document.getElementById('editPanel');
-const editName = document.getElementById('editName');
-const editEmail = document.getElementById('editEmail');
-const saveProfileBtn = document.getElementById('saveProfileBtn');
-const photoInput = document.getElementById('photoInput');
-const photoUploadMsg = document.getElementById('photoUploadMsg');
-const logoutBtn = document.getElementById('logoutBtn');
-const logoutModal = document.getElementById('logoutModal');
-const cancelLogout = document.getElementById('cancelLogout');
-const confirmLogoutBtn = document.getElementById('confirmLogout');
-
-// Protect the page – redirect if not logged in
+// ===== Check auth state =====
 onAuthStateChanged(auth, (user) => {
-  if (user) {
-    populateDashboard(user);
-  } else {
+  if (!user) {
+    // Not logged in → redirect to auth page
     window.location.href = 'auth.html';
+    return;
   }
+  populateDashboard(user);
 });
 
+// ===== Populate user data =====
 function populateDashboard(user) {
-  const name = user.displayName || user.email.split('@')[0] || 'User';
-  profileName.textContent = `Welcome, ${name}`;
-  editName.value = name;
+  const displayName = user.displayName || user.email?.split('@')[0] || 'User';
+  const email = user.email;
+  const photoURL = user.photoURL;
 
-  profileEmail.textContent = user.email;
-  editEmail.value = user.email;
+  document.getElementById('profileName').textContent = `Welcome, ${displayName}`;
+  document.getElementById('profileEmail').textContent = email;
+  document.getElementById('editName').value = displayName;
+  document.getElementById('editEmail').value = email;
 
-  // Photo: use Google photoURL, or show initials
-  if (user.photoURL) {
-    profilePhoto.innerHTML = `<img src="${user.photoURL}" alt="Profile" />`;
+  const img = document.getElementById('profileImg');
+  const initials = document.getElementById('initialsDisplay');
+
+  if (photoURL) {
+    img.src = photoURL;
+    img.style.display = 'block';
+    initials.style.display = 'none';
   } else {
-    const initials = getInitials(name);
-    profilePhoto.innerHTML = `<div class="initials-placeholder">${initials}</div>`;
+    img.style.display = 'none';
+    initials.textContent = getInitials(displayName);
+    initials.style.display = 'flex';
   }
-
-  // Store user reference for later updates
-  window.currentUser = user;
 }
 
 function getInitials(name) {
@@ -63,86 +48,95 @@ function getInitials(name) {
   return (name[0] || 'U').toUpperCase();
 }
 
-// ---------- Edit Profile ----------
-toggleEditBtn.addEventListener('click', () => {
-  editPanel.classList.toggle('active');
+// ===== Edit profile panel toggle =====
+document.getElementById('toggleEditBtn').addEventListener('click', () => {
+  document.getElementById('editPanel').classList.toggle('active');
 });
 
-saveProfileBtn.addEventListener('click', async () => {
-  const newName = editName.value.trim();
-  if (newName && window.currentUser) {
-    try {
-      await updateProfile(window.currentUser, { displayName: newName });
-      profileName.textContent = `Welcome, ${newName}`;
-      // Update initials if no photo
-      if (!window.currentUser.photoURL) {
-        profilePhoto.innerHTML = `<div class="initials-placeholder">${getInitials(newName)}</div>`;
-      }
-      editPanel.classList.remove('active');
-    } catch (error) {
-      alert(error.message);
-    }
+// ===== Save name changes =====
+document.getElementById('saveProfileBtn').addEventListener('click', async () => {
+  const newName = document.getElementById('editName').value.trim();
+  if (!newName) return;
+
+  try {
+    // Update Firebase profile
+    await updateProfile(auth.currentUser, { displayName: newName });
+    // Refresh UI
+    populateDashboard(auth.currentUser);
+    document.getElementById('editPanel').classList.remove('active');
+    showMessage('photoUploadMsg', 'Name updated successfully.', 'success');
+  } catch (error) {
+    showMessage('photoUploadMsg', error.message, 'error');
   }
 });
 
-// ---------- Photo Upload to Cloudinary ----------
+// ===== Profile photo upload (Cloudinary) =====
+const photoInput = document.getElementById('photoInput');
 photoInput.addEventListener('change', async (e) => {
   const file = e.target.files[0];
   if (!file) return;
 
-  photoUploadMsg.innerHTML = '<div class="success-msg">Uploading...</div>';
-  const formData = new FormData();
-  formData.append('file', file);
-  formData.append('upload_preset', CLOUDINARY_UPLOAD_PRESET);
+  // Show uploading state
+  showMessage('photoUploadMsg', 'Uploading photo...', 'info');
 
   try {
-    const res = await fetch(CLOUDINARY_UPLOAD_URL, {
+    const formData = new FormData();
+    formData.append('file', file);
+    formData.append('upload_preset', UPLOAD_PRESET);
+
+    const response = await fetch(CLOUDINARY_URL, {
       method: 'POST',
       body: formData
     });
-    const data = await res.json();
-    if (data.secure_url) {
-      // Update Firebase profile with the new photo URL
-      await updateProfile(window.currentUser, { photoURL: data.secure_url });
-      // Refresh current user object (so photoURL is available next time)
-      window.currentUser.photoURL = data.secure_url;
-      // Show photo in the dashboard
-      profilePhoto.innerHTML = `<img src="${data.secure_url}" alt="Profile" />`;
-      photoUploadMsg.innerHTML = '<div class="success-msg">Profile photo updated successfully.</div>';
-    } else {
-      throw new Error(data.error?.message || 'Upload failed');
+
+    if (!response.ok) {
+      throw new Error('Upload failed');
     }
+
+    const data = await response.json();
+    const photoURL = data.secure_url;
+
+    // Update Firebase user photo
+    await updateProfile(auth.currentUser, { photoURL });
+    populateDashboard(auth.currentUser);
+    showMessage('photoUploadMsg', 'Profile photo updated successfully.', 'success');
   } catch (error) {
-    photoUploadMsg.innerHTML = `<div class="error-msg">Error: ${error.message}</div>`;
+    showMessage('photoUploadMsg', 'Failed to upload photo. Please try again.', 'error');
+  } finally {
+    photoInput.value = ''; // clear file input
   }
 });
 
-// ---------- Logout Modal ----------
-logoutBtn.addEventListener('click', () => {
-  logoutModal.classList.add('active');
-});
+// Helper to show messages inside the edit panel
+function showMessage(elementId, message, type) {
+  const el = document.getElementById(elementId);
+  if (!el) return;
+  const className = type === 'success' ? 'success-msg' : type === 'error' ? 'error-msg' : 'info-msg';
+  el.innerHTML = `<div class="${className}">${message}</div>`;
+}
 
-cancelLogout.addEventListener('click', () => {
-  logoutModal.classList.remove('active');
-});
+// ===== Logout modal =====
+const logoutBtn = document.getElementById('logoutBtn');
+const logoutModal = document.getElementById('logoutModal');
+const cancelLogout = document.getElementById('cancelLogout');
+const confirmLogout = document.getElementById('confirmLogout');
 
-confirmLogoutBtn.addEventListener('click', async () => {
+logoutBtn.addEventListener('click', () => logoutModal.classList.add('active'));
+cancelLogout.addEventListener('click', () => logoutModal.classList.remove('active'));
+confirmLogout.addEventListener('click', async () => {
   try {
     await signOut(auth);
-    window.location.href = 'auth.html';
+    // Redirect handled by onAuthStateChanged (user becomes null)
   } catch (error) {
-    alert(error.message);
+    alert('Logout failed: ' + error.message);
   }
 });
-
-// Close modal on overlay click
+// Close modal when clicking outside
 logoutModal.addEventListener('click', (e) => {
-  if (e.target === logoutModal) {
-    logoutModal.classList.remove('active');
-  }
+  if (e.target === logoutModal) logoutModal.classList.remove('active');
 });
 
-// ---------- Menu Panel Toggle ----------
+// ===== Menu panels (Settings, Change Password, Help) =====
 const menuButtons = document.querySelectorAll('.menu-option');
 const optionPanels = document.querySelectorAll('.option-panel');
 
@@ -153,14 +147,19 @@ function hideAllPanels() {
 menuButtons.forEach(btn => {
   btn.addEventListener('click', () => {
     const panelId = btn.getAttribute('data-panel');
-    const targetPanel = document.getElementById(panelId);
-    if (targetPanel) {
-      if (targetPanel.classList.contains('active')) {
-        targetPanel.classList.remove('active');
+    const target = document.getElementById(panelId);
+    if (target) {
+      if (target.classList.contains('active')) {
+        target.classList.remove('active');
       } else {
         hideAllPanels();
-        targetPanel.classList.add('active');
+        target.classList.add('active');
       }
     }
   });
 });
+
+// Add an "info" style message (if needed)
+const style = document.createElement('style');
+style.textContent = '.info-msg { font-size: 0.85rem; color: #1a3a6b; background: #e8f0fe; border-left: 3px solid #1a3a6b; padding: 10px 14px; border-radius: 4px; margin-top: 8px; }';
+document.head.appendChild(style);
