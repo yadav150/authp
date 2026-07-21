@@ -24,6 +24,7 @@
         <li><a href="legal/privacy-policy.html">Privacy</a></li>
         <li><a href="legal/terms-conditions.html">Terms</a></li>
         <li><a href="legal/disclaimer.html">Disclaimer</a></li>
+        <li><a href="legal/contact.html">Contact</a></li>
       </ul>
     </nav>
   </header>
@@ -42,20 +43,30 @@
               <input type="email" id="login-email" name="email" placeholder="you@example.com" required />
               <span class="error-msg">Please enter a valid email.</span>
             </div>
-            <div class="form-group">
+            <div class="form-group password-group">
               <label for="login-password">Password</label>
               <input type="password" id="login-password" name="password" placeholder="Your password" required />
+              <button type="button" class="password-toggle" aria-label="Show password">
+                <svg id="login-eye-off" viewBox="0 0 24 24">
+                  <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24" />
+                  <line x1="1" y1="1" x2="23" y2="23" />
+                </svg>
+                <svg id="login-eye-on" viewBox="0 0 24 24" style="display:none;">
+                  <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
+                  <circle cx="12" cy="12" r="3" />
+                </svg>
+              </button>
               <span class="error-msg">Password is required.</span>
             </div>
             <div class="auth-actions">
               <button type="submit" class="btn">Login</button>
               <span class="auth-switch"><a href="#" class="switch-to-forgot">Forgot password?</a></span>
             </div>
-                        <p class="auth-switch">Don’t have an account? <a href="#" class="switch-to-signup">Sign up</a></p>
+            <p class="auth-switch">Don’t have an account? <a href="#" class="switch-to-signup">Sign up</a></p>
           </form>
 
           <div class="auth-actions" style="justify-content: center; margin-top: 15px;">
-            <button type="button" id="google-signin" class="btn">Sign in with Google</button>
+            <button type="button" id="google-signin" class="btn btn-secondary" style="background:#4285F4; border-color:#4285F4;">Sign in with Google</button>
           </div>
         </div>
 
@@ -74,14 +85,34 @@
               <input type="email" id="signup-email" name="email" placeholder="you@example.com" required />
               <span class="error-msg">Valid email required.</span>
             </div>
-            <div class="form-group">
+            <div class="form-group password-group">
               <label for="signup-password">Password</label>
               <input type="password" id="signup-password" name="password" placeholder="At least 6 characters" minlength="6" required />
+              <button type="button" class="password-toggle" aria-label="Show password">
+                <svg id="signup-eye-off" viewBox="0 0 24 24">
+                  <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24" />
+                  <line x1="1" y1="1" x2="23" y2="23" />
+                </svg>
+                <svg id="signup-eye-on" viewBox="0 0 24 24" style="display:none;">
+                  <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
+                  <circle cx="12" cy="12" r="3" />
+                </svg>
+              </button>
               <span class="error-msg">Password must be at least 6 characters.</span>
             </div>
-            <div class="form-group">
+            <div class="form-group password-group">
               <label for="signup-confirm">Confirm Password</label>
               <input type="password" id="signup-confirm" name="confirm" placeholder="Re-enter password" required />
+              <button type="button" class="password-toggle" aria-label="Show password">
+                <svg id="signup-confirm-eye-off" viewBox="0 0 24 24">
+                  <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24" />
+                  <line x1="1" y1="1" x2="23" y2="23" />
+                </svg>
+                <svg id="signup-confirm-eye-on" viewBox="0 0 24 24" style="display:none;">
+                  <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
+                  <circle cx="12" cy="12" r="3" />
+                </svg>
+              </button>
               <span class="error-msg">Passwords do not match.</span>
             </div>
             <div class="auth-actions">
@@ -116,19 +147,19 @@
   </main>
 
   <footer class="site-footer" role="contentinfo">
-  <div class="footer-inner">
-    <div class="footer-links">
-      <a href="index.html">Home</a>
-      <a href="auth.html">Auth</a>
-      <a href="legal/about.html">About</a>
-      <a href="legal/privacy-policy.html">Privacy</a>
-      <a href="legal/terms-conditions.html">Terms</a>
-      <a href="legal/disclaimer.html">Disclaimer</a>
-      <a href="legal/contact.html">Contact</a>
+    <div class="footer-inner">
+      <div class="footer-links">
+        <a href="index.html">Home</a>
+        <a href="auth.html">Auth</a>
+        <a href="legal/about.html">About</a>
+        <a href="legal/privacy-policy.html">Privacy</a>
+        <a href="legal/terms-conditions.html">Terms</a>
+        <a href="legal/disclaimer.html">Disclaimer</a>
+        <a href="legal/contact.html">Contact</a>
+      </div>
+      <p class="footer-copy">&copy; 2026 Yadav Authentication Project. All Rights Reserved.</p>
     </div>
-    <p class="footer-copy">&copy; 2026 Yadav Authentication Project.</p>
-  </div>
-</footer>
+  </footer>
 
   <script src="script.js"></script>
   <script type="module" src="auth.js"></script>
