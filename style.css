@@ -180,3 +180,5 @@ main{flex:1;padding-top:6px}
 #legal-content a:focus {
   color: #DC143C;
 }
+/* Password toggle button */
+.password-toggle{position:absolute;right:10px;top:50%;transform:translateY(-50%);background:none;border:none;padding:4px;cursor:pointer;display:flex;align-items:center;justify-content:center;color:var(--primary-color)}.password-toggle svg{width:20px;height:20px;stroke:var(--primary-color);fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}.password-toggle:hover{opacity:.7}.form-group.password-group{position:relative}.form-group.password-group input{padding-right:40px}
