@@ -1,0 +1,130 @@
+/* ===== Dashboard‑specific styles (uses global root variables from style.css) ===== */
+
+/* Profile card – photo area is NOT clickable (upload happens inside Edit panel) */
+.profile-photo {
+  width: 80px; height: 80px; border-radius: 50%;
+  background: var(--primary-light);
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0; overflow: hidden;
+  border: 2px dashed var(--border-color);
+  cursor: default;   /* no hand cursor */
+}
+.profile-photo img {
+  width: 100%; height: 100%; object-fit: cover; border-radius: 50%;
+}
+.profile-photo .initials-placeholder {
+  font-size: 2rem; font-weight: 700; color: var(--primary-color);
+  display: flex; align-items: center; justify-content: center;
+  width: 100%; height: 100%;
+}
+
+/* Edit profile panel */
+.edit-panel {
+  background: var(--section-bg);
+  border: 1px solid var(--border-color);
+  border-radius: var(--card-radius);
+  padding: 24px;
+  box-shadow: var(--shadow);
+  margin-bottom: 20px;
+  display: none;
+}
+.edit-panel.active { display: block; }
+.edit-panel h2 {
+  margin: 0 0 20px; font-size: 1.2rem; font-weight: 600; color: var(--primary-color);
+}
+
+/* Locked email field */
+.input-locked-wrapper {
+  position: relative; display: flex; align-items: center;
+}
+.input-locked-wrapper input {
+  padding-right: 42px;
+}
+.lock-icon-svg {
+  position: absolute; right: 12px; top: 50%; transform: translateY(-50%);
+  width: 18px; height: 18px; stroke: var(--primary-color);
+  fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round;
+  pointer-events: none;
+}
+
+/* Menu list */
+.menu-list {
+  list-style: none; padding: 0; margin: 0;
+  background: var(--section-bg); border: 1px solid var(--border-color);
+  border-radius: var(--card-radius); box-shadow: var(--shadow);
+}
+.menu-list li { border-bottom: 1px solid var(--border-color); }
+.menu-list li:last-child { border-bottom: none; }
+.menu-list button {
+  display: block; width: 100%; text-align: left; padding: 14px 20px;
+  font-size: 0.95rem; font-weight: 500; color: var(--text-color);
+  background: none; border: none; cursor: pointer;
+  transition: background 0.15s;
+}
+.menu-list button:hover { background: var(--primary-light); color: var(--primary-color); }
+
+/* Dynamic option panels */
+.option-panel {
+  display: none;
+  background: var(--section-bg); border: 1px solid var(--border-color);
+  border-radius: var(--card-radius); padding: 24px;
+  margin-top: 20px; box-shadow: var(--shadow);
+}
+.option-panel.active { display: block; }
+.option-panel h2 {
+  margin: 0 0 20px; font-size: 1.3rem; font-weight: 600; color: var(--primary-color);
+}
+.option-panel p { margin: 0 0 16px; font-size: 0.95rem; line-height: 1.6; }
+.option-panel textarea {
+  width: 100%; padding: 10px; border: 1px solid var(--border-color);
+  border-radius: var(--border-radius); font-family: var(--font-family);
+  resize: vertical; font-size: 0.9rem; margin-bottom: 12px;
+}
+.btn-submit {
+  background: var(--primary-color); color: #fff; border: none;
+  border-radius: var(--border-radius); padding: 10px 22px;
+  font-size: 0.95rem; font-weight: 500; cursor: pointer;
+  transition: background 0.15s;
+}
+.btn-submit:hover { background: var(--primary-hover); }
+
+/* Logout modal */
+.modal-overlay {
+  position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+  background: rgba(0,0,0,0.5); display: none;
+  align-items: center; justify-content: center; z-index: 1000;
+}
+.modal-overlay.active { display: flex; }
+.modal-dialog {
+  background: var(--section-bg); border: 1px solid var(--border-color);
+  border-radius: var(--card-radius); padding: 32px 24px;
+  max-width: 400px; width: 90%; box-shadow: 0 4px 24px rgba(0,0,0,0.1);
+  text-align: center;
+}
+.modal-dialog h3 {
+  margin: 0 0 12px; font-size: 1.3rem; font-weight: 600; color: var(--primary-color);
+}
+.modal-dialog p { margin: 0 0 20px; font-size: 0.95rem; color: var(--text-muted); }
+.modal-actions { display: flex; justify-content: center; gap: 12px; }
+
+/* Edit & logout buttons (primary style from main CSS is extended) */
+.edit-profile-btn, .logout-btn {
+  font-size: 0.9rem; color: var(--primary-color); background: none;
+  border: 1px solid var(--border-color); padding: 6px 14px;
+  border-radius: var(--border-radius); cursor: pointer;
+  transition: background 0.15s; display: inline-block; margin-right: 8px;
+}
+.edit-profile-btn:hover, .logout-btn:hover { background: var(--primary-light); }
+.logout-btn { color: #c00; border-color: #c00; }
+
+/* Success / error messages (same as existing style but inside dashboard) */
+.success-msg {
+  font-size: 0.85rem; color: #1e4620; background: #e6f4ea;
+  border-left: 3px solid #1e4620; padding: 10px 14px; border-radius: 4px;
+  margin-top: 8px;
+}
+.error-msg {
+  font-size: 0.85rem; color: var(--primary-color);
+  background: var(--primary-light); border-left: 3px solid var(--primary-color);
+  padding: 10px 14px; border-radius: 4px; margin-top: 8px;
+}
