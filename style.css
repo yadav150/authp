@@ -173,3 +173,10 @@ main{flex:1;padding-top:6px}
 .features-grid{grid-template-columns:1fr 1fr 1fr;gap:18px}
 .auth-container,.legal-content{padding:30px 32px}
 }
+#legal-content a:link,
+#legal-content a:visited,
+#legal-content a:hover,
+#legal-content a:active,
+#legal-content a:focus {
+  color: #DC143C;
+}
