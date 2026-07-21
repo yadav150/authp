@@ -173,3 +173,5 @@ main{flex:1;padding-top:6px}
 .features-grid{grid-template-columns:1fr 1fr 1fr;gap:18px}
 .auth-container,.legal-content{padding:30px 32px}
 }
+/* ===== Text Decoration ===== */
+a,a:hover,a:focus,a:active{text-decoration:none}
