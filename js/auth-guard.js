@@ -1,57 +1,70 @@
 /* ============================================================
    Auth Guard – Route Protection & Session Monitoring
-   Redirects unauthenticated users to login.
-   Watches for session expiry on protected pages.
+   Waits for Firebase to confirm auth state before redirect.
    ============================================================ */
 
-import { onAuthChange, getCurrentUser } from './auth-service.js';
+import { onAuthChange } from './auth-service.js';
 import { getCurrentPage, redirectTo } from './utils.js';
 import notification from './notification.js';
 
 /**
- * Protect the current page: if no user, redirect to login.
- * Also sets up a listener to detect session expiry.
- * Call this once on each protected page (dashboard, profile, etc.).
+ * Protect the current page.
+ * Shows a page loader until Firebase confirms the auth state.
+ * If unauthenticated, redirects to login.
+ * Sets up a listener for session expiry.
  */
 export function protectPage() {
   const currentPage = getCurrentPage();
 
-  // Immediate check (in case listener hasn't fired yet)
-  const user = getCurrentUser();
-  if (!user) {
-    // User not signed in, redirect to login with return URL
-    redirectTo('login.html', currentPage);
-    return;
-  }
+  // Show a full-page loader while waiting for auth state
+  showPageLoader(true);
 
-  // Listen for future auth state changes
-  onAuthChange((user) => {
+  // Wait for the first auth state callback
+  const unsubscribe = onAuthChange((user) => {
+    // First call – hide loader and decide
+    unsubscribe();
+
     if (user) {
-      // User is signed in – page remains accessible
-      return;
+      // Authenticated – allow access
+      showPageLoader(false);
+      // Listen for future sign-outs (session expiry)
+      onAuthChange((updatedUser) => {
+        if (!updatedUser) {
+          notification.warning(
+            'Session expired',
+            'Please log in again to continue.',
+            0
+          );
+          setTimeout(() => {
+            redirectTo('login.html', getCurrentPage());
+          }, 1500);
+        }
+      });
+    } else {
+      // Not authenticated – redirect to login
+      redirectTo('login.html', currentPage);
     }
-
-    // User became null while on a protected page → session expired
-    notification.warning(
-      'Session expired',
-      'Please log in again to continue.',
-      0 // sticky notification
-    );
-
-    // Redirect after a short delay so user sees the notification
-    setTimeout(() => {
-      redirectTo('login.html', getCurrentPage());
-    }, 1500);
   });
 }
 
 /**
- * Check if a user is logged in, and if so redirect away from auth pages.
- * Call this on login, signup, and forgot-password pages.
+ * Helper: show/hide a page-wide loader.
+ * Assumes a #pageLoader element exists on protected pages.
+ */
+function showPageLoader(visible) {
+  const loader = document.getElementById('pageLoader');
+  if (!loader) return;
+  loader.style.display = visible ? 'flex' : 'none';
+}
+
+/**
+ * Check if a user is already logged in and redirect away from auth pages.
  */
 export function redirectIfAuthenticated() {
-  const user = getCurrentUser();
-  if (user) {
-    redirectTo('dashboard.html');
-  }
+  const unsubscribe = onAuthChange((user) => {
+    unsubscribe();
+    if (user) {
+      redirectTo('dashboard.html');
+    }
+  });
 }
