@@ -5,7 +5,10 @@ const CLOUD_NAME = 'nhxuht4e';
 const UPLOAD_PRESET = 'yadav_auth_preset';
 const CLOUDINARY_URL = `https://api.cloudinary.com/v1_1/${CLOUD_NAME}/image/upload`;
 
-// ===== Check auth state =====
+// ===== Loading overlay =====
+const loadingOverlay = document.getElementById('loadingOverlay');
+
+// ===== Check auth state & populate dashboard =====
 onAuthStateChanged(auth, (user) => {
   if (!user) {
     // Not logged in → redirect to auth page
@@ -15,8 +18,13 @@ onAuthStateChanged(auth, (user) => {
   populateDashboard(user);
 });
 
-// ===== Populate user data =====
+// ===== Populate user data and hide spinner =====
 function populateDashboard(user) {
+  // Hide loading spinner with a subtle fade
+  if (loadingOverlay) {
+    loadingOverlay.classList.add('hidden');
+  }
+
   const displayName = user.displayName || user.email?.split('@')[0] || 'User';
   const email = user.email;
   const photoURL = user.photoURL;
@@ -59,10 +67,8 @@ document.getElementById('saveProfileBtn').addEventListener('click', async () => 
   if (!newName) return;
 
   try {
-    // Update Firebase profile
     await updateProfile(auth.currentUser, { displayName: newName });
-    // Refresh UI
-    populateDashboard(auth.currentUser);
+    populateDashboard(auth.currentUser);   // refresh UI
     document.getElementById('editPanel').classList.remove('active');
     showMessage('photoUploadMsg', 'Name updated successfully.', 'success');
   } catch (error) {
@@ -76,7 +82,6 @@ photoInput.addEventListener('change', async (e) => {
   const file = e.target.files[0];
   if (!file) return;
 
-  // Show uploading state
   showMessage('photoUploadMsg', 'Uploading photo...', 'info');
 
   try {
@@ -107,7 +112,7 @@ photoInput.addEventListener('change', async (e) => {
   }
 });
 
-// Helper to show messages inside the edit panel
+// ===== Message helper (inside edit panel) =====
 function showMessage(elementId, message, type) {
   const el = document.getElementById(elementId);
   if (!el) return;
@@ -126,12 +131,11 @@ cancelLogout.addEventListener('click', () => logoutModal.classList.remove('activ
 confirmLogout.addEventListener('click', async () => {
   try {
     await signOut(auth);
-    // Redirect handled by onAuthStateChanged (user becomes null)
+    // onAuthStateChanged will handle redirect
   } catch (error) {
     alert('Logout failed: ' + error.message);
   }
 });
-// Close modal when clicking outside
 logoutModal.addEventListener('click', (e) => {
   if (e.target === logoutModal) logoutModal.classList.remove('active');
 });
@@ -159,7 +163,10 @@ menuButtons.forEach(btn => {
   });
 });
 
-// Add an "info" style message (if needed)
-const style = document.createElement('style');
-style.textContent = '.info-msg { font-size: 0.85rem; color: #1a3a6b; background: #e8f0fe; border-left: 3px solid #1a3a6b; padding: 10px 14px; border-radius: 4px; margin-top: 8px; }';
-document.head.appendChild(style);
+// ===== Inject an 'info' message style (if not already present) =====
+if (!document.getElementById('dashboard-info-style')) {
+  const style = document.createElement('style');
+  style.id = 'dashboard-info-style';
+  style.textContent = '.info-msg { font-size: 0.85rem; color: #1a3a6b; background: #e8f0fe; border-left: 3px solid #1a3a6b; padding: 10px 14px; border-radius: 4px; margin-top: 8px; }';
+  document.head.appendChild(style);
+}
