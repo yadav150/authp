@@ -50,9 +50,9 @@ document.addEventListener('click', e => {
 
 // ---------------- Status message helper ----------------
 function showStatus(msg, type = 'info') {
-  statusDiv.textContent = msg;
+  statusDiv.innerHTML = msg;                // allow HTML for the clickable link
   statusDiv.className = `status-message ${type}`;
-  setTimeout(() => { statusDiv.className = 'status-message'; statusDiv.textContent = ''; }, 8000);
+  setTimeout(() => { statusDiv.className = 'status-message'; statusDiv.innerHTML = ''; }, 10000);
 }
 
 // ---------------- Form validation helpers ----------------
@@ -115,10 +115,14 @@ document.getElementById('signup-form').addEventListener('submit', async (e) => {
     const userCredential = await createUserWithEmailAndPassword(auth, email, password);
     await updateProfile(userCredential.user, { displayName: name });
     await sendEmailVerification(userCredential.user);
-    showStatus('Account created! A verification email has been sent to ' + email + '. Redirecting...', 'success');
-    setTimeout(() => {
-      window.location.href = 'dashboard.html';
-    }, 1500);
+
+    // Show success message with a clickable login link
+    showStatus(
+      'Account created! A verification email has been sent. <a href="#" class="switch-to-login" style="color:var(--primary-color);font-weight:600;">Click here to login</a>.',
+      'success'
+    );
+    // Clear the sign-up form
+    document.getElementById('signup-form').reset();
   } catch (error) {
     showStatus(error.message, 'error');
   } finally {
