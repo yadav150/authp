@@ -42,7 +42,7 @@ ul{list-style:none}
 /* ===== Header ===== */
 .site-header{position:sticky;top:0;z-index:100;width:100%;background:var(--header-bg);-webkit-backdrop-filter:var(--header-blur);backdrop-filter:var(--header-blur);border-bottom:1px solid var(--border-color)}
 .header-inner{max-width:1200px;margin:0 auto;display:flex;justify-content:space-between;align-items:center;padding:8px 16px}
-.site-title{font-size:1.4rem;font-weight:700;color:var(--primary-color);letter-spacing:-.3px;text-decoration:none}
+.site-title{font-size:1.8rem;font-weight:700;color:var(--primary-color);letter-spacing:-.3px;text-decoration:none}
 .hamburger{display:flex;flex-direction:column;gap:4px;background:0 0;border:0;padding:6px 4px;cursor:pointer;border-radius:var(--border-radius)}
 .hamburger-line{display:block;width:24px;height:2.5px;background:var(--text-color);border-radius:4px;transition:.2s}
 .hamburger[aria-expanded=true] .hamburger-line:nth-child(1){transform:translateY(6px) rotate(45deg)}
