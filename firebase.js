@@ -9,7 +9,9 @@ import {
   GoogleAuthProvider,
   onAuthStateChanged,
   signOut,
-  updateProfile          // ← add this import
+  updateProfile,
+  verifyPasswordResetCode,          // <-- new
+  confirmPasswordReset              // <-- new
 } from "https://www.gstatic.com/firebasejs/12.16.0/firebase-auth.js";
 
 const firebaseConfig = {
@@ -34,5 +36,7 @@ export {
   signInWithPopup,
   onAuthStateChanged,
   signOut,
-  updateProfile          // ← export it
+  updateProfile,
+  verifyPasswordResetCode,          // <-- exported
+  confirmPasswordReset              // <-- exported
 };
