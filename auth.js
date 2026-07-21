@@ -7,7 +7,8 @@ import {
   sendEmailVerification,
   signInWithPopup,
   onAuthStateChanged,
-  signOut
+  signOut,
+  updateProfile
 } from './firebase.js';
 
 // ---------------- Panel switching ----------------
@@ -83,6 +84,9 @@ document.getElementById('login-form').addEventListener('submit', async (e) => {
   try {
     const userCredential = await signInWithEmailAndPassword(auth, email, password);
     showStatus(`Welcome back, ${userCredential.user.email}!`, 'success');
+    setTimeout(() => {
+      window.location.href = 'dashboard.html';
+    }, 1000);
   } catch (error) {
     showStatus(error.message, 'error');
   } finally {
@@ -109,8 +113,12 @@ document.getElementById('signup-form').addEventListener('submit', async (e) => {
   showStatus('Creating your account...', 'info');
   try {
     const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+    await updateProfile(userCredential.user, { displayName: name });
     await sendEmailVerification(userCredential.user);
-    showStatus('Account created! A verification email has been sent to ' + email, 'success');
+    showStatus('Account created! A verification email has been sent to ' + email + '. Redirecting...', 'success');
+    setTimeout(() => {
+      window.location.href = 'dashboard.html';
+    }, 1500);
   } catch (error) {
     showStatus(error.message, 'error');
   } finally {
@@ -145,6 +153,9 @@ if (googleBtn) {
     try {
       const result = await signInWithPopup(auth, googleProvider);
       showStatus(`Signed in as ${result.user.displayName || result.user.email}`, 'success');
+      setTimeout(() => {
+        window.location.href = 'dashboard.html';
+      }, 1000);
     } catch (error) {
       showStatus(error.message, 'error');
     }
@@ -164,7 +175,6 @@ document.querySelectorAll('.password-toggle').forEach(button => {
     const type = input.getAttribute('type') === 'password' ? 'text' : 'password';
     input.setAttribute('type', type);
 
-    // Toggle SVG icons
     const offIcon = this.querySelector('svg[id$="-eye-off"]');
     const onIcon = this.querySelector('svg[id$="-eye-on"]');
     if (offIcon && onIcon) {
