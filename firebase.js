@@ -10,8 +10,11 @@ import {
   onAuthStateChanged,
   signOut,
   updateProfile,
-  verifyPasswordResetCode,          // <-- new
-  confirmPasswordReset              // <-- new
+  verifyPasswordResetCode,
+  confirmPasswordReset,
+  updatePassword,
+  EmailAuthProvider,
+  reauthenticateWithCredential
 } from "https://www.gstatic.com/firebasejs/12.16.0/firebase-auth.js";
 
 const firebaseConfig = {
@@ -37,6 +40,9 @@ export {
   onAuthStateChanged,
   signOut,
   updateProfile,
-  verifyPasswordResetCode,          // <-- exported
-  confirmPasswordReset              // <-- exported
+  verifyPasswordResetCode,
+  confirmPasswordReset,
+  updatePassword,
+  EmailAuthProvider,
+  reauthenticateWithCredential
 };
