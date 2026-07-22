@@ -6,6 +6,7 @@
   <title>Dashboard · Yadav Authentication Project</title>
   <link rel="stylesheet" href="style.css" />
   <link rel="stylesheet" href="dashboard.css" />
+  <link rel="stylesheet" href="themes.css" />
 </head>
 <body>
 
@@ -86,17 +87,26 @@
 
     <!-- Dynamic panels -->
     <div id="settingsPanel" class="option-panel">
-      <h2>Settings</h2>
-      <p>Manage your account preferences and notification settings. (Demo content)</p>
-      <div class="form-group">
-        <label>Language</label>
-        <input type="text" value="English" disabled />
-      </div>
-      <div class="form-group">
-        <label>Theme</label>
-        <input type="text" value="Light" disabled />
-      </div>
-    </div>
+  <h2>Settings</h2>
+  <div class="form-group">
+    <label for="langSelect">Language</label>
+    <select id="langSelect" style="width:100%; padding:10px 12px; font-size:0.95rem; border:1px solid var(--border-color); border-radius:var(--border-radius); background:var(--section-bg); color:var(--text-color);">
+      <option value="en">English</option>
+      <option value="hi">हिन्दी</option>
+      <option value="as">অসমীয়া</option>
+    </select>
+  </div>
+  <div class="form-group">
+    <label for="themeSelect">Theme</label>
+    <select id="themeSelect" style="width:100%; padding:10px 12px; font-size:0.95rem; border:1px solid var(--border-color); border-radius:var(--border-radius); background:var(--section-bg); color:var(--text-color);">
+      <option value="light">Light</option>
+      <option value="dark">Dark</option>
+      <option value="grey">Grey</option>
+    </select>
+  </div>
+  <button class="btn-submit" id="saveSettingsBtn">Save Settings</button>
+  <div id="settingsMsg" style="margin-top:12px;"></div>
+</div>
 
     <div id="changePasswordPanel" class="option-panel">
   <h2>Change Password</h2>
@@ -157,6 +167,7 @@
 <script type="module" src="dashboard-email-check.js"></script>
   <script type="module" src="change-password.js"></script>
 <script type="module" src="settings-universal.js"></script>
+  <script type="module" src="dashboard-settings.js"></script>
   
 </body>
 </html>
