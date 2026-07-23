@@ -142,14 +142,15 @@
     <label for="deletePassword">Enter your password to confirm</label>
     <input type="password" id="deletePassword" placeholder="Current password" />
   </div>
-  <div class="form-group">
-    <label>
+  <div class="form-group" style="display:flex; align-items:center; justify-content:space-between; gap:12px; flex-wrap:wrap;">
+    <label style="margin:0; display:flex; align-items:center; gap:6px;">
       <input type="checkbox" id="deleteConsent" />
       I understand and wish to delete my account.
     </label>
+    <button class="btn-submit" id="confirmDeleteBtn" disabled style="background:#c00; border-color:#c00; white-space:nowrap;">Delete My Account</button>
   </div>
-  <button class="btn-submit" id="confirmDeleteBtn" disabled style="background:#c00; border-color:#c00;">Delete My Account</button>
   <div id="deleteMsg" style="margin-top:12px;"></div>
+</div>
 </div>
   </main>
 
