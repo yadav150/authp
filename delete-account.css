@@ -1,0 +1,12 @@
+/* Error highlighting for delete account panel */
+.form-group.error input[type="password"] {
+  border-color: #c00;
+  box-shadow: 0 0 0 2px rgba(204,0,0,0.1);
+}
+.form-group.error .consent-label {
+  color: #c00;
+}
+.form-group.error .consent-label input[type="checkbox"] {
+  outline: 2px solid #c00;
+  outline-offset: 2px;
+}
