@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Reset Password · Yadav Authentication Project</title>
+  <link rel="stylesheet" href="../style.css" />
+  <style>
+    /* Modal styles – exactly like the dashboard modals */
+    .modal-overlay {
+      position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+      background: rgba(0,0,0,0.5); display: none;
+      align-items: center; justify-content: center; z-index: 1000;
+    }
+    .modal-overlay.active { display: flex; }
+    .modal-dialog {
+      background: var(--section-bg); border: 1px solid var(--border-color);
+      border-radius: var(--card-radius, 16px); padding: 32px 24px;
+      max-width: 400px; width: 90%; box-shadow: 0 4px 24px rgba(0,0,0,0.1);
+      text-align: center;
+    }
+    .modal-dialog h3 {
+      margin: 0 0 12px; font-size: 1.3rem; font-weight: 600; color: var(--primary-color);
+    }
+    .modal-dialog p { margin: 0 0 20px; font-size: 0.95rem; color: var(--text-muted); }
+    .modal-actions { display: flex; justify-content: center; gap: 12px; }
+    /* Make the auth container slightly smaller for a single field */
+    .auth-container { max-width: 400px; margin: 0 auto; }
+    /* Use the same error/success message classes */
+    .status-message { margin-top: 15px; display: none; padding: 10px 12px; border-radius: var(--border-radius); font-size: 0.9rem; text-align: left; }
+    .status-message.error { background: #fdecea; color: #b71c1c; display: block; }
+    .status-message.success { background: #e6f4ea; color: #1e4620; display: block; }
+    .status-message.info { background: #e8f0fe; color: #1a3a6b; display: block; }
+  </style>
+</head>
+<body>
+
+  <!-- No header, no nav – just the form -->
+  <main id="main-content">
+    <section class="auth-section" style="padding-top:60px;">
+      <div class="auth-container">
+        <h1 class="auth-title">Reset Your Password</h1>
+        <p class="auth-subtitle">Enter your email and we’ll send you a reset link.</p>
+        <form id="forgot-form" novalidate>
+          <div class="form-group">
+            <label for="reset-email">Email</label>
+            <input type="email" id="reset-email" name="email" required />
+            <span class="error-msg">Valid email required.</span>
+          </div>
+          <button type="submit" class="btn">Send Reset Link</button>
+        </form>
+        <div id="reset-status" class="status-message"></div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Success modal (same as logout modal style) -->
+  <div class="modal-overlay" id="successModal">
+    <div class="modal-dialog">
+      <h3>Reset Link Sent</h3>
+      <p>A password reset link has been sent to your email. Please check your inbox.</p>
+      <div class="modal-actions">
+        <a href="../index.html" class="btn">Go to Home</a>
+      </div>
+    </div>
+  </div>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/12.16.0/firebase-app.js";
+    import { getAuth, sendPasswordResetEmail } from "https://www.gstatic.com/firebasejs/12.16.0/firebase-auth.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyDFnxF_v-fXGiZeL_OEMzmKrPdR1PE3KfU",
+      authDomain: "auth-project-by-yadav.firebaseapp.com",
+      projectId: "auth-project-by-yadav",
+      storageBucket: "auth-project-by-yadav.firebasestorage.app",
+      messagingSenderId: "351339588417",
+      appId: "1:351339588417:web:37475410e0f70a6470cfc0",
+      measurementId: "G-788ZZB8CTB"
+    };
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+
+    const form = document.getElementById('forgot-form');
+    const emailInput = document.getElementById('reset-email');
+    const statusDiv = document.getElementById('reset-status');
+    const successModal = document.getElementById('successModal');
+
+    function showStatus(message, type) {
+      statusDiv.textContent = message;
+      statusDiv.className = `status-message ${type}`;
+      // Auto‑hide after 8 seconds, but modal may override this
+      setTimeout(() => {
+        if (statusDiv.className.includes(type)) {
+          statusDiv.className = 'status-message';
+          statusDiv.textContent = '';
+        }
+      }, 8000);
+    }
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const email = emailInput.value.trim();
+      // Basic validation
+      if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+        showStatus('Please enter a valid email address.', 'error');
+        return;
+      }
+
+      const btn = form.querySelector('button');
+      btn.disabled = true;
+      btn.textContent = 'Sending…';
+      showStatus('Sending password reset email…', 'info');
+
+      try {
+        await sendPasswordResetEmail(auth, email);
+        // Hide the info message and show the success modal
+        statusDiv.className = 'status-message';
+        successModal.classList.add('active');
+
+        // Auto‑redirect to home after 8 seconds
+        setTimeout(() => {
+          window.location.href = '../index.html';
+        }, 8000);
+      } catch (error) {
+        let msg = 'An error occurred. Please try again.';
+        if (error.code === 'auth/user-not-found') {
+          msg = 'No account found with that email address.';
+        } else if (error.code === 'auth/invalid-email') {
+          msg = 'Please enter a valid email address.';
+        } else {
+          msg = error.message;
+        }
+        showStatus(msg, 'error');
+      } finally {
+        btn.disabled = false;
+        btn.textContent = 'Send Reset Link';
+      }
+    });
+
+    // Close modal when clicking outside, but also allow the Go Home link
+    successModal.addEventListener('click', (e) => {
+      if (e.target === successModal) successModal.classList.remove('active');
+    });
+  </script>
+</body>
+</html>
