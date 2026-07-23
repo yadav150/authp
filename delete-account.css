@@ -4,9 +4,8 @@
   box-shadow: 0 0 0 2px rgba(204,0,0,0.1);
 }
 .form-group.error .consent-label {
-  color: #c00;
-}
-.form-group.error .consent-label input[type="checkbox"] {
-  outline: 2px solid #c00;
-  outline-offset: 2px;
+  box-shadow: 0 0 0 2px #c00;
+  border-radius: var(--border-radius);
+  padding: 4px 8px;
+  margin: -4px -8px;
 }
