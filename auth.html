@@ -170,22 +170,6 @@
   <script src="script.js"></script>
 <script type="module" src="auth.js"></script>
 <script type="module" src="auth-flow.js"></script>
-  <script>
-    // Automatically switch to the correct auth panel based on URL query.
-document.addEventListener('DOMContentLoaded', () => {
-  const params = new URLSearchParams(window.location.search);
-  const panel = params.get('panel');
-
-  if (panel === 'forgot') {
-    // Wait a tiny bit for other scripts to set up panels
-    setTimeout(() => {
-      const forgotLink = document.querySelector('.switch-to-forgot');
-      if (forgotLink) {
-        forgotLink.click();
-      }
-    }, 200);
-  }
-});
-  </script>
+  
 </body>
 </html>
