@@ -6,26 +6,32 @@ import {
 } from "https://www.gstatic.com/firebasejs/12.16.0/firebase-auth.js";
 
 const passwordInput = document.getElementById('deletePassword');
+const passwordGroup = document.getElementById('deletePasswordGroup');
 const consentCheckbox = document.getElementById('deleteConsent');
+const consentGroup = document.getElementById('deleteConsentGroup');
 const confirmBtn = document.getElementById('confirmDeleteBtn');
 const msgDiv = document.getElementById('deleteMsg');
 const attemptModal = document.getElementById('attemptLimitModal');
 const cancelAttemptBtn = document.getElementById('cancelAttemptModal');
 
-let failedAttempts = 0;                     // track consecutive wrong passwords
+let failedAttempts = 0;
 
-// --- Helper: show message below the form ---
+// --- Utility: show message in the standard dashboard error/success style ---
 function showMsg(message, type) {
   const className = type === 'success' ? 'success-msg' : 'error-msg';
   msgDiv.innerHTML = `<div class="${className}">${message}</div>`;
 }
 
-// --- Enable/disable the delete button ---
-function toggleDeleteButton() {
-  confirmBtn.disabled = !(consentCheckbox.checked && passwordInput.value.trim() !== '');
+// --- Clear any error highlighting ---
+function clearErrors() {
+  passwordGroup.classList.remove('error');
+  consentGroup.classList.remove('error');
 }
-consentCheckbox.addEventListener('change', toggleDeleteButton);
-passwordInput.addEventListener('input', toggleDeleteButton);
+
+// --- Highlight specific field ---
+function highlightField(group) {
+  if (group) group.classList.add('error');
+}
 
 // --- Attempt modal controls ---
 cancelAttemptBtn.addEventListener('click', () => {
@@ -35,20 +41,32 @@ attemptModal.addEventListener('click', (e) => {
   if (e.target === attemptModal) attemptModal.classList.remove('active');
 });
 
-// --- Main delete action ---
+// --- Main delete handler ---
 confirmBtn.addEventListener('click', async () => {
+  clearErrors();          // reset any previous highlights
   const password = passwordInput.value.trim();
+  const consentChecked = consentCheckbox.checked;
+  let hasError = false;
 
-  // Immediate feedback if password is empty
+  // Validate
+  if (!password && !consentChecked) {
+    highlightField(passwordGroup);
+    highlightField(consentGroup);
+    showMsg('Please enter your password and tick the consent checkbox.', 'error');
+    return;
+  }
   if (!password) {
+    highlightField(passwordGroup);
     showMsg('Please enter your password.', 'error');
     return;
   }
-  if (!consentCheckbox.checked) {
+  if (!consentChecked) {
+    highlightField(consentGroup);
     showMsg('You must tick the consent checkbox.', 'error');
     return;
   }
 
+  // Proceed
   confirmBtn.disabled = true;
   confirmBtn.textContent = 'Deleting…';
 
@@ -59,25 +77,25 @@ confirmBtn.addEventListener('click', async () => {
     await deleteUser(user);
     window.location.replace('index.html');
   } catch (error) {
-    // Increment failed attempts on authentication errors
+    // Friendly messages for common errors
+    let friendlyMsg = 'An error occurred. Please try again.';
     if (error.code === 'auth/invalid-credential' || error.code === 'auth/wrong-password') {
+      friendlyMsg = 'Incorrect password. Please try again.';
       failedAttempts++;
+    } else if (error.code === 'auth/too-many-requests') {
+      friendlyMsg = 'Too many attempts. Please wait a moment and try again.';
+    } else {
+      friendlyMsg = error.message; // fallback, but unlikely
     }
 
-    // Show error message
-    showMsg(error.message, 'error');
+    showMsg(friendlyMsg, 'error');
 
-    // After 3 failures, show the modal and reset the button
     if (failedAttempts >= 3) {
       attemptModal.classList.add('active');
-      // Reset attempts so the user must close the modal and re-enter
-      failedAttempts = 0;
+      failedAttempts = 0; // reset after showing modal
     }
 
-    // Re-enable the button (but keep it disabled if modal is showing? no, we re-enable)
     confirmBtn.disabled = false;
     confirmBtn.textContent = 'Delete My Account';
-    // Re-check conditions to maybe disable again if password empty
-    toggleDeleteButton();
   }
 });
