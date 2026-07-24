@@ -1,7 +1,7 @@
 import { auth, signOut } from './firebase.js';
 
-const IDLE_TIME = 0.5 * 60 * 1000;      // 5 minutes
-const WARNING_TIME = 10 * 1000;       // 30 seconds
+const IDLE_TIME = 10 * 1000;           // 10 seconds of inactivity
+const WARNING_TIME = 5 * 1000;         // auto‑logout after 5 seconds of warning
 let idleTimer, warningTimer;
 
 const timeoutModal = document.getElementById('timeoutModal');
